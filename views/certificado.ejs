@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certificado</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <div class="certificate-container">
+        <h1>Certificado de Finalización</h1>
+        <p>Este certificado certifica que</p>
+        <h2><%= req.session.userName %></h2>
+        <p>ha completado con éxito el curso</p>
+        <h3>Curso ID: <%= curso_id %></h3>
+        <p>Fecha: <%= new Date().toLocaleDateString() %></p>
+    </div>
+</body>
+</html>

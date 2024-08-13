@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= curso.nombre %></title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <header class="header">
+        <h1 class="title"><%= curso.nombre %></h1>
+    </header>
+
+    <main class="main">
+        <section class="section">
+            <h2>Descripción del Curso</h2>
+            <p><%= curso.descripcion %></p>
+            <!-- Aquí puedes añadir más detalles sobre el curso -->
+        </section>
+
+        <section class="section">
+            <h2>Materiales del Curso</h2>
+            <!-- Aquí podrías agregar enlaces o información sobre materiales del curso -->
+            <p>Materiales y recursos del curso.</p>
+        </section>
+
+        <section class="section">
+            <h2>Progreso</h2>
+            <!-- Aquí podrías mostrar el progreso del usuario en este curso -->
+            <p>Progreso del curso.</p>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <a href="/dashboard" class="back-dashborad-button ">Volver al Dashboard</a>
+    </footer>
+</body>
+</html>

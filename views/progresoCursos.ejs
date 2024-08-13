@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Progreso en los Cursos</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <header class="header">
+        <h1 class="title">Progreso en los Cursos</h1>
+    </header>
+
+    <main class="main">
+        <section class="section">
+            <h2>Tu Progreso</h2>
+            <ul class="progress-list">
+                <% if (progreso.length > 0) { %>
+                    <% progreso.forEach(p => { %>
+                        <li>
+                            <h3><%= p.nombre %></h3>
+                            <p>Progreso: <%= p.porcentaje_completado %>%</p>
+                            <div class="progress" class="width-<%= p.porcentaje_completado %>"></div>
+
+                        </li>
+                    <% }) %>
+                <% } else { %>
+                    <p>No tienes cursos registrados aún.</p>
+                <% } %>
+            </ul>
+            
+        </section>                      
+    </main>
+
+    <footer class="footer">
+        <a href="/dashboard" class="back-home-button">Volver al Dashboard</a>
+    </footer>
+</body>
+</html>

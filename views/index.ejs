@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestor de Cursos</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+</head>
+<body>
+    <header class="header">
+        <h1 class="title">Gestor de Cursos</h1>
+        <a href="/" class="back-home-button">Volver al Inicio</a>
+        <a href="/logout" class="logout-button">Cerrar Sesión</a>
+    </header>
+
+    <!-- Solo mostrar la navegación si el usuario es administrador -->
+    <% if (userRole === 'admin') { %>
+        <nav class="nav">
+            <ul>
+                <li><a href="#usuarios" onclick="showSection('usuarios')">Usuarios Registrados</a></li>
+                <li><a href="#cursos" onclick="showSection('cursos')">Cursos Disponibles</a></li>
+                <li><a href="#registrar-usuario" onclick="showSection('registrar-usuario')">Registrar Usuario</a></li>
+                <li><a href="#agregar-curso" onclick="showSection('agregar-curso')">Agregar Curso</a></li>
+                <li><a href="#inscribir" onclick="showSection('inscribir')">Inscribir Usuario en Curso</a></li>
+                <li><a href="#enviar-mensajes" onclick="showSection('enviar-mensajes')">Enviar Mensajes</a></li>
+            </ul>
+        </nav>
+        
+    <% } %>
+
+    <main class="main">
+        <!-- Sección de Usuarios Registrados -->
+        <section class="section hidden" id="usuarios">
+            <h2>Usuarios Registrados</h2>
+            <div class="card-container">
+                <% usuarios.forEach(usuario => { %>
+                    <div class="card">
+                        <div class="card-content">
+                            <h3><%= usuario.nombre %></h3>
+                            <p><strong>Correo:</strong> <%= usuario.correo %></p>
+                            <% if (usuario.foto) { %>
+                                <img src="<%= usuario.foto %>" alt="Foto de <%= usuario.nombre %>" class="user-photo">
+                            <% } else { %>
+                                <p>Sin foto</p>
+                            <% } %>
+                            <!-- Botones de edición y eliminación -->
+                            <div class="card-actions">
+                                <a href="/editarUsuario/<%= usuario.id %>" class="edit-button">Editar</a>
+                                <form action="/eliminarUsuario/<%= usuario.id %>" method="POST" class="delete-form">
+                                    <button type="submit" class="delete-button">Eliminar</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                <% }) %>
+            </div>
+        </section>
+
+        <!-- Sección de Cursos Disponibles -->
+        <section class="section hidden" id="cursos">
+            <h2>Cursos Disponibles</h2>
+            <div class="card-container">
+                <% cursos.forEach(curso => { %>
+                    <div class="card">
+                        <div class="card-content">
+                            <h3><%= curso.nombre %></h3>
+                            <p><strong>Descripción:</strong> <%= curso.descripcion %></p>
+                            <!-- Botones de edición y eliminación -->
+                            <div class="card-actions">
+                                <a href="/editarCurso/<%= curso.id %>" class="edit-button">Editar</a>
+                                <form action="/eliminarCurso/<%= curso.id %>" method="POST" class="delete-form">
+                                    <button type="submit" class="delete-button">Eliminar</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                <% }) %>
+            </div>
+        </section>
+
+        <!-- Sección para Registrar Usuario -->
+        <section class="section hidden" id="registrar-usuario">
+            <h2>Registrar Usuario</h2>
+            <form action="/registrarUsuario" method="POST" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="nombre">Nombre:</label>
+                    <input type="text" id="nombre" name="nombre" required>
+                </div>
+                <div class="form-group">
+                    <label for="correo">Correo:</label>
+                    <input type="email" id="correo" name="correo" required>
+                </div>
+                <div class="form-group">
+                    <label for="foto">Foto:</label>
+                    <input type="file" id="foto" name="foto" accept="image/*">
+                </div>
+                <button type="submit"><i class="fas fa-user-plus"></i> Registrar</button>
+            </form>
+        </section>
+
+        <!-- Sección para Agregar Curso -->
+        <section class="section hidden" id="agregar-curso">
+            <h2>Agregar Curso</h2>
+            <form action="/agregarCurso" method="POST">
+                <div class="form-group">
+                    <label for="nombre">Nombre del Curso:</label>
+                    <input type="text" id="nombre" name="nombre" required>
+                </div>
+                <div class="form-group">
+                    <label for="descripcion">Descripción:</label>
+                    <textarea id="descripcion" name="descripcion" required></textarea>
+                </div>
+                <button type="submit">Agregar Curso</button>
+            </form>
+        </section>
+
+
+        <!-- Sección para Enviar Mensajes -->
+<section class="section hidden" id="enviar-mensajes">
+    <h2>Enviar Mensaje a Usuario</h2>
+    <form action="/enviarMensaje" method="POST">
+        <div class="form-group">
+            <label for="usuario_id">Usuario:</label>
+            <select id="usuario_id" name="usuario_id">
+                <% usuarios.forEach(usuario => { %>
+                    <option value="<%= usuario.id %>"><%= usuario.nombre %> (<%= usuario.correo %>)</option>
+                <% }) %>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="contenido">Mensaje:</label>
+            <textarea id="contenido" name="contenido" required></textarea>
+        </div>
+        <button type="submit">Enviar Mensaje</button>
+    </form>
+</section>
+
+        
+        
+
+
+
+
+
+
+        <!-- Sección para Inscribir Usuario en Curso -->
+        <section class="section hidden" id="inscribir">
+            <h2>Inscribir Usuario en Curso</h2>
+            <form action="/inscribir" method="POST">
+                <div class="form-group">
+                    <label for="usuario_id">Usuario:</label>
+                    <select id="usuario_id" name="usuario_id">
+                        <% usuarios.forEach(usuario => { %>
+                            <option value="<%= usuario.id %>"><%= usuario.nombre %></option>
+                        <% }) %>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="curso_id">Curso:</label>
+                    <select id="curso_id" name="curso_id">
+                        <% cursos.forEach(curso => { %>
+                            <option value="<%= curso.id %>"><%= curso.nombre %></option>
+                        <% }) %>
+                    </select>
+                </div>
+                <button type="submit">Inscribir</button>
+            </form>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <!-- Aquí puedes agregar contenido para el footer -->
+    </footer>
+
+    <script>
+        function showSection(sectionId) {
+            // Ocultar todas las secciones
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => section.classList.add('hidden'));
+
+            // Mostrar la sección seleccionada
+            const selectedSection = document.getElementById(sectionId);
+            if (selectedSection) {
+                selectedSection.classList.remove('hidden');
+            }
+
+            // Remover la clase 'active' de todos los enlaces
+            const navLinks = document.querySelectorAll('.nav a');
+            navLinks.forEach(link => link.classList.remove('active'));
+
+            // Añadir la clase 'active' al enlace correspondiente
+            const activeLink = document.querySelector(`.nav a[href="#${sectionId}"]`);
+            if (activeLink) {
+                activeLink.classList.add('active');
+            }
+        }
+
+        // Mostrar la primera sección (Usuarios Registrados) por defecto al cargar la página
+        document.addEventListener("DOMContentLoaded", function() {
+            showSection('usuarios');
+        });
+
+        // Escuchar notificaciones de inscripciones
+        const socket = io();
+
+        socket.on('notificacion', (mensaje) => {
+            alert(mensaje); // Puedes mostrar la notificación de manera más elegante
+        });
+    </script>
+</body>
+</html>
+
+

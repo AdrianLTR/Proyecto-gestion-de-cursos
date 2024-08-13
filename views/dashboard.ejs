@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard del Usuario</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+</head>
+<body>
+    <header class="header">
+        <h1 class="title">Tu Dashboard</h1>
+        <a href="/logout" class="logout-button">Cerrar Sesión</a>
+    </header>
+
+    <div class="dashboard-container">
+        <!-- Sidebar con las opciones -->
+        <aside class="sidebar">
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="/progresoCursos">Progreso en los Cursos</a></li>
+                    <li><a href="/certificados">Certificados</a></li>
+                    <li><a href="/notificaciones">Notificaciones</a></li>
+                    <li><a href="/foro">Foro de Discusión</a></li>
+                    <li><a href="/configuracionCuenta">Configuración de Cuenta</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Contenido principal del dashboard -->
+        <section class="section">
+            <h2>Tus Cursos</h2>
+            <ul class="cursos-list">
+                <% cursos.forEach(curso => { %>
+                    <li class="curso-item">
+                        <h3><%= curso.nombre %></h3>
+                        <p><%= curso.descripcion %></p>
+                        <!-- Enlace para acceder al curso -->
+                        <a href="/curso/<%= curso.id %>" class="btn">Entrar al Curso</a>
+                    </li>
+                <% }) %>
+            </ul>
+        </section>
+        
+
+            <section class="section">
+                <h2>Tus Mensajes</h2>
+                <ul class="mensajes-list">
+                    <% mensajes.forEach(mensaje => { %>
+                        <li class="mensaje-item">
+                            <p><%= mensaje.contenido %></p>
+                            <small>De: <%= mensaje.remitente_id %> - <%= mensaje.fecha %></small>
+                        </li>
+                    <% }) %>
+                </ul>
+            </section>
+        </main>
+    </div>
+
+   
+
+
+    <footer class="footer">
+        <p>&copy; 2024 Gestor de Cursos. Todos los derechos reservados.</p>
+    </footer>
+</body>
+</html>
